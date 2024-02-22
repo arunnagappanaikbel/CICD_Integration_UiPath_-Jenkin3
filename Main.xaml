@@ -64,6 +64,7 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap:VirtualizedContainerService.HintSize="496,296" sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -80,6 +81,6 @@
         <InArgument x:TypeArguments="x:String">Ravi B</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="434,60" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;ypur favourite singer is : &quot;+out_FavouriteSinger]" />
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="434,60" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;ypur favourite singer is :: &quot;+out_FavouriteSinger]" />
   </Sequence>
 </Activity>
