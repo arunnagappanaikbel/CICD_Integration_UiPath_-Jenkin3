@@ -67,69 +67,6 @@ pipeline {
 					)
 	            }
 			
-			}
-			
-			
-	         // Test Stages
-	        stage('Perform Tests') {
-	            steps {
-	                echo 'Testing the workflow...'
-					UiPathTest (
-					  testTarget: [$class: 'TestSetEntry', testSet: "AnnounceFavouriteSinger_Tests"],
-					  orchestratorAddress: "${UIPATH_ORCH_URL}",
-					  orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
-					  folderName: "${UIPATH_ORCH_FOLDER_NAME}",
-					  timeout: 10000,
-					  traceLevel: 'None',
-					  testResultsOutputPath: "result.xml",
-					  //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: "credentialsId"]
-					  credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'),
-					  parametersFilePath: ''
-					)
-	            }
-			}
-				
-	         // Building Package
-	        stage('Build Process') {
-				when {
-					expression {
-						currentBuild.result == null || currentBuild.result == 'SUCCESS'
-						}
-				}
-				steps {
-					echo "Building package with ${WORKSPACE}"
-					UiPathPack (
-						  outputPath: "C:\\Users\\arnaik2\\OneDrive - Cisco\\Documents\\UiPath\\Salesforce_POC_Relanto\\Output\\${env.BUILD_NUMBER}",
-						  projectJsonPath: "project.json",
-						  version: [$class: 'ManualVersionEntry', version: "${MAJOR}.${MINOR}.${env.BUILD_NUMBER}"],
-						  useOrchestrator: false,
-						  traceLevel: 'None'
-						)
-					}
-	        }			
-			
-	         // Deploy to Production Step
-	        stage('Deploy Process') {
-				when {
-					expression {
-						currentBuild.result == null || currentBuild.result == 'SUCCESS' 
-						}
-				}
-				steps {
-	                echo 'Deploying process to orchestrator...'
-	                UiPathDeploy (
-	                packagePath: "C:\\Users\\arnaik2\\OneDrive - Cisco\\Documents\\UiPath\\Salesforce_POC_Relanto\\Output\\${env.BUILD_NUMBER}",
-	                orchestratorAddress: "${UIPATH_ORCH_URL}",
-	                orchestratorTenant: "${UIPATH_ORCH_TENANT_NAME}",
-	                folderName: "${UIPATH_ORCH_FOLDER_NAME}",
-	                environments: '',
-	                //credentials: [$class: 'UserPassAuthenticationEntry', credentialsId: 'APIUserKey']
-	                credentials: Token(accountName: "${UIPATH_ORCH_LOGICAL_NAME}", credentialsId: 'APIUserKey'),
-					traceLevel: 'None',
-					 createProcess: true,
-					entryPointPaths: 'Main.xaml'
-					)
-				}   
 			}	
 		
 	    }
